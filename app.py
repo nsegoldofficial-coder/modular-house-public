@@ -260,23 +260,29 @@ with col_download:
     
     st.markdown("<br>", unsafe_allow_html=True)
     
-    with open("Desain_Katalog_Modular_Baru.pdf", "rb") as f:
-        st.download_button(
-            label="📄 Download Katalog PDF",
-            data=f,
-            file_name="Katalog_Modular_2026.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
-    
-    with open("Rincian_Anggaran_Kantor_Modular_v3.pdf", "rb") as f:
-        st.download_button(
-            label="💰 Download RAB Detail PDF",
-            data=f,
-            file_name="RAB_Modular_Proyek.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+    if os.path.exists("Desain_Katalog_Modular_Baru.pdf"):
+        with open("Desain_Katalog_Modular_Baru.pdf", "rb") as f:
+            st.download_button(
+                label="📄 Download Katalog PDF",
+                data=f,
+                file_name="Katalog_Modular_2026.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    else:
+        st.warning("File Katalog tidak ditemukan.")
+        
+    if os.path.exists("Rincian_Anggaran_Kantor_Modular_v3.pdf"):
+        with open("Rincian_Anggaran_Kantor_Modular_v3.pdf", "rb") as f:
+            st.download_button(
+                label="💰 Download RAB Detail PDF",
+                data=f,
+                file_name="RAB_Modular_Proyek.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+    else:
+        st.warning("File RAB tidak ditemukan.")
 
 # --- CONTACT CTA ---
 st.markdown("""

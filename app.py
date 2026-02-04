@@ -27,6 +27,12 @@ st.markdown("""
         font-family: 'Poppins', sans-serif;
     }
     
+    /* Fix Streamlit default padding to make Hero look better */
+    .block-container {
+        padding-top: 1rem !important;
+        padding-bottom: 5rem !important;
+    }
+    
     .main {
         background-color: #f4f6f9;
     }
@@ -38,20 +44,20 @@ st.markdown("""
         background-size: cover;
         background-position: center;
         color: white;
-        padding: 6rem 2rem;
-        border-radius: 0 0 30px 30px;
+        padding: 4rem 2rem;
+        border-radius: 20px;
         text-align: center;
         margin-bottom: 3rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
     .hero-title {
-        font-size: 4rem;
+        font-size: 3.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
     .hero-subtitle {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         opacity: 0.95;
         font-weight: 300;
         max-width: 800px;
@@ -66,13 +72,32 @@ st.markdown("""
         margin-bottom: 2rem;
         box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         transition: transform 0.3s ease;
+        border: 1px solid #eee;
     }
     .product-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     }
-    .card-content {
+    
+    /* Flexbox Layout for Main Product */
+    .main-product-layout {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .main-product-image {
+        flex: 1;
+        min-width: 300px;
+        background-image: url('https://images.unsplash.com/photo-1517502884422-41e157d4433c?auto=format&fit=crop&w=800&q=80');
+        background-size: cover;
+        background-position: center;
+        min-height: 300px;
+    }
+    .main-product-content {
+        flex: 1;
         padding: 2rem;
+        min-width: 300px;
     }
+    
     .card-title {
         color: #1a237e;
         font-size: 1.8rem;
@@ -124,13 +149,7 @@ st.markdown("""
         font-weight: 700;
     }
     
-    /* Buttons */
-    .stButton>button {
-        width: 100%;
-        border-radius: 10px;
-        font-weight: 600;
-    }
-    
+    /* Contact Box */
     .contact-box {
         background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
         color: white;
@@ -138,6 +157,7 @@ st.markdown("""
         border-radius: 20px;
         text-align: center;
         margin-top: 4rem;
+        box-shadow: 0 10px 30px rgba(26, 35, 126, 0.2);
     }
     .whatsapp-btn {
         background: #25D366;
@@ -155,6 +175,7 @@ st.markdown("""
     .whatsapp-btn:hover {
         background: #128C7E;
         transform: scale(1.05);
+        text-decoration: none;
     }
     
 </style>
@@ -168,48 +189,44 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- MAIN CONTENT GRID ---
+# --- MAIN CONTENT ---
 st.markdown("## ✨ Koleksi Produk Unggulan")
 
-# Layout: 2 Columns for Main Module (Image Left, Details Right)
-with st.container():
-    col1, col2 = st.columns([1, 1], gap="large")
-    
-    with col1:
-        st.image(IMG_MODULAR, use_container_width=True, caption="Ilustrasi Kantor Modular Modern")
-    
-    with col2:
-        st.markdown(f"""
-        <div class="product-card" style="box-shadow: none; margin-bottom: 0;">
-            <div class="card-content" style="padding: 0;">
-                <div class="card-title">1. Modul Utama (Standard)</div>
-                <div class="price-badge">Rp 15.000.000 / unit</div>
-                <p style="color: #666; line-height: 1.6;">
-                    Solusi ruang kerja instan berukuran <b>3 x 6 meter</b>. Dirancang khusus untuk kebutuhan kantor proyek, mess karyawan, atau ruang serbaguna. Menggunakan material sandwich panel berkualitas tinggi yang tahan panas dan suara.
-                </p>
-                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-top: 1rem;">
-                    <h5 style="color: #1a237e; margin-top: 0;">Spesifikasi Premium:</h5>
-                    <ul style="padding-left: 1.2rem; margin-bottom: 0; color: #555;">
-                        <li><b>Dimensi:</b> 3x6m (18 m²)</li>
-                        <li><b>Struktur:</b> Baja Ringan Galvanis</li>
-                        <li><b>Dinding:</b> Sandwich Panel EPS</li>
-                        <li><b>Lantai:</b> Vinyl Wood Texture</li>
-                        <li><b>Pintu/Jendela:</b> Steel Door & Sliding Glass</li>
-                        <li><b>Listrik:</b> Full Instalasi (Lampu LED, Stop Kontak)</li>
-                    </ul>
-                </div>
+# MAIN PRODUCT CARD (Refactored for better alignment)
+st.markdown(f"""
+<div class="product-card">
+    <div class="main-product-layout">
+        <div class="main-product-image" style="background-image: url('{IMG_MODULAR}');"></div>
+        <div class="main-product-content">
+            <div class="card-title">1. Modul Utama (Standard)</div>
+            <div class="price-badge">Rp 15.000.000 / unit</div>
+            <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem;">
+                Solusi ruang kerja instan berukuran <b>3 x 6 meter</b>. Dirancang khusus untuk kebutuhan kantor proyek, mess karyawan, atau ruang serbaguna. Menggunakan material sandwich panel berkualitas tinggi yang tahan panas dan suara.
+            </p>
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #1a237e;">
+                <h5 style="color: #1a237e; margin-top: 0; margin-bottom: 10px;">Spesifikasi Premium:</h5>
+                <ul style="padding-left: 1.2rem; margin-bottom: 0; color: #555;">
+                    <li><b>Dimensi:</b> 3x6m (18 m²)</li>
+                    <li><b>Struktur:</b> Baja Ringan Galvanis</li>
+                    <li><b>Dinding:</b> Sandwich Panel EPS</li>
+                    <li><b>Lantai:</b> Vinyl Wood Texture</li>
+                    <li><b>Pintu/Jendela:</b> Steel Door & Sliding Glass</li>
+                    <li><b>Listrik:</b> Full Instalasi (Lampu LED, Stop Kontak)</li>
+                </ul>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
-# --- ADD-ONS SECTION ---
-st.markdown("### 🛠️ Paket & Aksesoris Tambahan")
+# --- GRID LAYOUT FOR ADDONS & DOWNLOADS ---
+col_left, col_right = st.columns([3, 2], gap="large")
 
-col_addons, col_download = st.columns([2, 1], gap="large")
-
-with col_addons:
+with col_left:
+    st.markdown("### 🛠️ Paket & Aksesoris Tambahan")
+    
     st.markdown("""
     <div class="product-card">
         <div class="card-content">
@@ -254,12 +271,21 @@ with col_addons:
     
     st.markdown("</div></div>", unsafe_allow_html=True)
 
-with col_download:
+with col_right:
     st.markdown("### 📥 Dokumen Proyek")
-    st.image(IMG_PLAN, caption="Ilustrasi Denah & Perencanaan", use_container_width=True)
     
-    st.markdown("<br>", unsafe_allow_html=True)
+    # Visualization Card
+    st.markdown(f"""
+    <div class="product-card" style="padding: 0;">
+        <img src="{IMG_PLAN}" style="width: 100%; height: 250px; object-fit: cover;">
+        <div style="padding: 1.5rem;">
+            <div style="font-weight: bold; color: #333; margin-bottom: 0.5rem;">Visualisasi Denah</div>
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Ilustrasi layout standar untuk unit modular 3x6m.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
+    # Downloads
     if os.path.exists("Desain_Katalog_Modular_Baru.pdf"):
         with open("Desain_Katalog_Modular_Baru.pdf", "rb") as f:
             st.download_button(
@@ -271,7 +297,7 @@ with col_download:
             )
     else:
         st.warning("File Katalog tidak ditemukan.")
-        
+    
     if os.path.exists("Rincian_Anggaran_Kantor_Modular_v3.pdf"):
         with open("Rincian_Anggaran_Kantor_Modular_v3.pdf", "rb") as f:
             st.download_button(

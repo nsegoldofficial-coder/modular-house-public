@@ -35,38 +35,39 @@ with st.sidebar:
 st.title("🏠 Katalog Produk Modular House 2026")
 st.markdown("#### Solusi Hunian & Kantor Modular Berkualitas")
 
-catalog_file = "Revisi_Katalog_Modular_2026.pdf"
+# --- CUSTOM DESIGN CATALOG ---
+new_catalog_file = "Desain_Katalog_Modular_Baru.pdf"
 
-if os.path.exists(catalog_file):
-    # Download Button
-    with open(catalog_file, "rb") as f:
-        st.download_button(
-            label="📄 Download Katalog Lengkap (PDF)",
-            data=f,
-            file_name="Katalog_Modular_House_2026.pdf",
-            mime="application/pdf",
-            type="primary"
-        )
+if os.path.exists(new_catalog_file):
+    st.success("✨ Desain Katalog Baru Tersedia!")
     
-    st.divider()
+    col1, col2 = st.columns([1, 2])
     
-    # PDF Viewer (Image based)
-    st.subheader("Preview Katalog")
-    
-    try:
-        doc = fitz.open(catalog_file)
-        # Display all pages
-        for i, page in enumerate(doc):
-            pix = page.get_pixmap(dpi=150) # Higher DPI for better quality
-            img_data = pix.tobytes("png")
+    with col1:
+        st.write("Unduh katalog terbaru dengan desain modern dan harga spesial proyek.")
+        with open(new_catalog_file, "rb") as f:
+            st.download_button(
+                label="📥 Download Desain Katalog Baru (PDF)",
+                data=f,
+                file_name="Katalog_Modular_House_Modern_2026.pdf",
+                mime="application/pdf",
+                type="primary"
+            )
             
-            st.image(img_data, caption=f"Halaman {i+1}", use_container_width=True)
-            st.divider()
-            
-    except Exception as e:
-        st.error(f"Gagal memuat preview katalog: {e}")
-        
+    with col2:
+        # PDF Preview for New Catalog
+        with st.expander("👁️ Lihat Preview Katalog Baru", expanded=True):
+            try:
+                doc = fitz.open(new_catalog_file)
+                for i, page in enumerate(doc):
+                    pix = page.get_pixmap(dpi=150)
+                    img_data = pix.tobytes("png")
+                    st.image(img_data, caption=f"Halaman {i+1}", use_container_width=True)
+                    st.divider()
+            except Exception as e:
+                st.error(f"Error preview: {e}")
+
 else:
-    st.error("File katalog tidak ditemukan. Harap hubungi administrator.")
+    st.warning("Desain katalog baru belum di-generate. Silakan hubungi admin.")
 
 st.caption("© 2026 Modular House. All Rights Reserved.")

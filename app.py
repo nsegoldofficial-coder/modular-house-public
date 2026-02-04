@@ -3,333 +3,210 @@ import os
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Modular House - Modern Catalog",
-    page_icon="🏗️",
+    page_title="Modular House Catalog",
+    page_icon="🏠",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# --- IMAGES (DUMMY / CONCEPT) ---
-# Using Unsplash images for demonstration
-IMG_HERO = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80" # Modern Office Interior
-IMG_MODULAR = "https://images.unsplash.com/photo-1517502884422-41e157d4433c?auto=format&fit=crop&w=800&q=80" # Container/Modular Concept
-IMG_TOILET = "https://images.unsplash.com/photo-1584622050111-993a426fbf0a?auto=format&fit=crop&w=600&q=80" # Modern Bathroom
-IMG_STAIRS = "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=600&q=80" # Industrial Stairs
-IMG_TERRACE = "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" # Terrace/Balcony
-IMG_PLAN = "https://images.unsplash.com/photo-1536895058696-a69b1c7be473?auto=format&fit=crop&w=800&q=80" # Blueprints/Plan
-
-# --- CUSTOM CSS STYLING ---
+# --- CUSTOM CSS (Minimal & Clean) ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
-    /* Fix Streamlit default padding to make Hero look better */
+    /* Remove default top padding */
     .block-container {
-        padding-top: 1rem !important;
-        padding-bottom: 5rem !important;
+        padding-top: 2rem !important;
     }
     
-    .main {
-        background-color: #f4f6f9;
-    }
-    
-    /* Hero Section */
-    .hero-container {
-        position: relative;
-        background-image: linear-gradient(rgba(26, 35, 126, 0.85), rgba(13, 71, 161, 0.85)), url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80');
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 4rem 2rem;
-        border-radius: 20px;
-        text-align: center;
-        margin-bottom: 3rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-    .hero-title {
-        font-size: 3.5rem;
+    /* Custom Headers */
+    h1, h2, h3 {
+        color: #0f172a;
         font-weight: 700;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    .hero-subtitle {
-        font-size: 1.2rem;
-        opacity: 0.95;
-        font-weight: 300;
-        max-width: 800px;
-        margin: 0 auto;
     }
     
-    /* Cards */
-    .product-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        margin-bottom: 2rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        transition: transform 0.3s ease;
-        border: 1px solid #eee;
-    }
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    }
-    
-    /* Flexbox Layout for Main Product */
-    .main-product-layout {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .main-product-image {
-        flex: 1;
-        min-width: 300px;
-        background-image: url('https://images.unsplash.com/photo-1517502884422-41e157d4433c?auto=format&fit=crop&w=800&q=80');
-        background-size: cover;
-        background-position: center;
-        min-height: 300px;
-    }
-    .main-product-content {
-        flex: 1;
-        padding: 2rem;
-        min-width: 300px;
-    }
-    
-    .card-title {
-        color: #1a237e;
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    .price-badge {
-        background: #e8f5e9;
-        color: #2e7d32;
-        font-weight: 700;
-        padding: 5px 15px;
-        border-radius: 50px;
-        font-size: 1.1rem;
-        display: inline-block;
-        margin-bottom: 1rem;
-    }
-    
-    /* Add-on Items */
-    .addon-item {
-        display: flex;
-        align-items: center;
+    /* Metric Cards */
+    div[data-testid="stMetric"] {
+        background-color: #f8fafc;
         padding: 15px;
-        border-bottom: 1px solid #f0f0f0;
-        transition: background 0.2s;
-    }
-    .addon-item:last-child {
-        border-bottom: none;
-    }
-    .addon-item:hover {
-        background: #fafafa;
-    }
-    .addon-img {
-        width: 80px;
-        height: 80px;
         border-radius: 10px;
-        object-fit: cover;
-        margin-right: 15px;
-    }
-    .addon-details {
-        flex: 1;
-    }
-    .addon-title {
-        font-weight: 600;
-        color: #333;
-        font-size: 1.1rem;
-    }
-    .addon-price {
-        color: #2e7d32;
-        font-weight: 700;
+        border: 1px solid #e2e8f0;
     }
     
-    /* Contact Box */
-    .contact-box {
-        background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    /* Custom Button Style */
+    .custom-btn {
+        display: inline-block;
+        background-color: #2563eb;
         color: white;
-        padding: 3rem;
-        border-radius: 20px;
-        text-align: center;
-        margin-top: 4rem;
-        box-shadow: 0 10px 30px rgba(26, 35, 126, 0.2);
-    }
-    .whatsapp-btn {
-        background: #25D366;
-        color: white !important;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
         text-decoration: none;
-        padding: 12px 30px;
+        font-weight: 600;
+        transition: background-color 0.2s;
+        text-align: center;
+    }
+    .custom-btn:hover {
+        background-color: #1d4ed8;
+        color: white;
+    }
+    
+    .whatsapp-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25D366;
+        color: white;
+        padding: 12px 24px;
         border-radius: 50px;
         font-weight: bold;
-        font-size: 1.2rem;
-        display: inline-block;
-        margin-top: 15px;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-        transition: 0.3s;
-    }
-    .whatsapp-btn:hover {
-        background: #128C7E;
-        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
         text-decoration: none;
+    }
+    .whatsapp-float:hover {
+        background-color: #128C7E;
+        color: white;
     }
     
 </style>
 """, unsafe_allow_html=True)
 
-# --- HERO SECTION ---
-st.markdown("""
-<div class="hero-container">
-    <div class="hero-title">MODULAR HOUSE</div>
-    <div class="hero-subtitle">Membangun Masa Depan dengan Solusi Konstruksi Cepat, Hemat, dan Estetik.</div>
-</div>
-""", unsafe_allow_html=True)
+# --- HEADER / HERO ---
+col_logo, col_title = st.columns([1, 5])
+with col_title:
+    st.title("Modular House")
+    st.markdown("##### Solusi Ruang Cepat, Hemat & Modern")
 
-# --- MAIN CONTENT ---
-st.markdown("## ✨ Koleksi Produk Unggulan")
+st.divider()
 
-# MAIN PRODUCT CARD (Refactored for better alignment)
-st.markdown(f"""
-<div class="product-card">
-    <div class="main-product-layout">
-        <div class="main-product-image" style="background-image: url('{IMG_MODULAR}');"></div>
-        <div class="main-product-content">
-            <div class="card-title">1. Modul Utama (Standard)</div>
-            <div class="price-badge">Rp 15.000.000 / unit</div>
-            <p style="color: #666; line-height: 1.6; margin-bottom: 1.5rem;">
-                Solusi ruang kerja instan berukuran <b>3 x 6 meter</b>. Dirancang khusus untuk kebutuhan kantor proyek, mess karyawan, atau ruang serbaguna. Menggunakan material sandwich panel berkualitas tinggi yang tahan panas dan suara.
-            </p>
-            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #1a237e;">
-                <h5 style="color: #1a237e; margin-top: 0; margin-bottom: 10px;">Spesifikasi Premium:</h5>
-                <ul style="padding-left: 1.2rem; margin-bottom: 0; color: #555;">
-                    <li><b>Dimensi:</b> 3x6m (18 m²)</li>
-                    <li><b>Struktur:</b> Baja Ringan Galvanis</li>
-                    <li><b>Dinding:</b> Sandwich Panel EPS</li>
-                    <li><b>Lantai:</b> Vinyl Wood Texture</li>
-                    <li><b>Pintu/Jendela:</b> Steel Door & Sliding Glass</li>
-                    <li><b>Listrik:</b> Full Instalasi (Lampu LED, Stop Kontak)</li>
-                </ul>
-            </div>
+# --- MAIN PRODUCT SHOWCASE ---
+st.markdown("### 🏢 Produk Unggulan: Modul Standart")
+
+# Container for Main Product
+with st.container():
+    col_img, col_info = st.columns([1.2, 1], gap="large")
+    
+    with col_img:
+        # High quality architectural placeholder
+        st.image("https://images.unsplash.com/photo-1496417263034-38ec4f0d665a?auto=format&fit=crop&w=1000&q=80", 
+                 caption="Ilustrasi Unit Modular 3x6m", 
+                 use_container_width=True)
+    
+    with col_info:
+        st.subheader("Modul Serbaguna 3x6m")
+        st.markdown("""
+        Unit modular prefabrikasi yang dirancang untuk kecepatan konstruksi dan kenyamanan. 
+        Ideal untuk kantor proyek, mess, atau ruang usaha.
+        """)
+        
+        # Price
+        st.markdown("""
+        <div style="background-color: #eff6ff; padding: 15px; border-radius: 8px; border-left: 4px solid #2563eb; margin: 15px 0;">
+            <p style="margin:0; font-size: 0.9rem; color: #64748b;">Harga Satuan</p>
+            <p style="margin:0; font-size: 1.5rem; font-weight: 700; color: #2563eb;">Rp 15.000.000</p>
         </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+        
+        # Specs
+        with st.expander("📝 Lihat Spesifikasi Lengkap", expanded=True):
+            st.markdown("""
+            - **Dimensi:** 600 x 300 x 280 cm
+            - **Struktur:** Rangka Baja Galvanis Anti Karat
+            - **Dinding:** Sandwich Panel EPS (Insulasi Panas)
+            - **Lantai:** Fiber Cement + Vinyl Motif Kayu
+            - **Pintu & Jendela:** Pintu Baja & Jendela Sliding Aluminium
+            - **Elektrikal:** Sudah termasuk instalasi (Lampu, Saklar, Stop Kontak)
+            """)
 
-st.markdown("---")
+st.divider()
 
-# --- GRID LAYOUT FOR ADDONS & DOWNLOADS ---
-col_left, col_right = st.columns([3, 2], gap="large")
+# --- ADD-ONS SECTION ---
+st.markdown("### 🛠️ Opsi Tambahan (Add-ons)")
+st.markdown("Lengkapi unit modular Anda dengan paket tambahan berikut:")
 
-with col_left:
-    st.markdown("### 🛠️ Paket & Aksesoris Tambahan")
-    
-    st.markdown("""
-    <div class="product-card">
-        <div class="card-content">
-            <h4 style="color: #1a237e; margin-bottom: 1.5rem;">Pilihan Upgrade Proyek</h4>
-    """, unsafe_allow_html=True)
-    
-    # Add-on 1
-    st.markdown(f"""
-    <div class="addon-item">
-        <img src="{IMG_TOILET}" class="addon-img">
-        <div class="addon-details">
-            <div class="addon-title">Paket Toilet Full Set</div>
-            <div style="font-size: 0.9rem; color: #666;">Kloset duduk, shower, wastafel, partisi & instalasi</div>
-        </div>
-        <div class="addon-price">Rp 5.000.000</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Add-on 2
-    st.markdown(f"""
-    <div class="addon-item">
-        <img src="{IMG_STAIRS}" class="addon-img">
-        <div class="addon-details">
-            <div class="addon-title">Tangga Baja Outdoor</div>
-            <div style="font-size: 0.9rem; color: #666;">Akses lt. 2, plat bordes kokoh, railing safety</div>
-        </div>
-        <div class="addon-price">Rp 5.000.000</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Add-on 3
-    st.markdown(f"""
-    <div class="addon-item">
-        <img src="{IMG_TERRACE}" class="addon-img">
-        <div class="addon-details">
-            <div class="addon-title">Teras & Selasar Baja (Per 3m)</div>
-            <div style="font-size: 0.9rem; color: #666;">Lantai plat bordes & railing pengaman</div>
-        </div>
-        <div class="addon-price">Rp 1.000.000</div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("</div></div>", unsafe_allow_html=True)
+# Using columns for cards look
+col_a, col_b, col_c = st.columns(3)
 
-with col_right:
-    st.markdown("### 📥 Dokumen Proyek")
+with col_a:
+    st.image("https://images.unsplash.com/photo-1584622050111-993a426fbf0a?auto=format&fit=crop&w=500&q=80", use_container_width=True)
+    st.markdown("**🚿 Paket Toilet Full Set**")
+    st.caption("Termasuk kloset, shower, wastafel, & partisi.")
+    st.markdown("##### Rp 5.000.000")
+
+with col_b:
+    st.image("https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=500&q=80", use_container_width=True)
+    st.markdown("**🪜 Tangga Baja Outdoor**")
+    st.caption("Akses aman ke lantai 2 dengan bordes plat.")
+    st.markdown("##### Rp 5.000.000")
+
+with col_c:
+    st.image("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=80", use_container_width=True)
+    st.markdown("**🏞️ Teras & Selasar (Per 3m)**")
+    st.caption("Lantai bordes dengan railing pengaman.")
+    st.markdown("##### Rp 1.000.000")
+
+st.divider()
+
+# --- DOWNLOADS & CTA ---
+col_dl, col_contact = st.columns([1, 1], gap="large")
+
+with col_dl:
+    st.subheader("📥 Download Katalog")
+    st.write("Dapatkan penawaran lengkap dalam format PDF.")
     
-    # Visualization Card
-    st.markdown(f"""
-    <div class="product-card" style="padding: 0;">
-        <img src="{IMG_PLAN}" style="width: 100%; height: 250px; object-fit: cover;">
-        <div style="padding: 1.5rem;">
-            <div style="font-weight: bold; color: #333; margin-bottom: 0.5rem;">Visualisasi Denah</div>
-            <div style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Ilustrasi layout standar untuk unit modular 3x6m.</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Check files
+    pdf_catalog = "Desain_Katalog_Modular_Baru.pdf"
+    pdf_rab = "Rincian_Anggaran_Kantor_Modular_v3.pdf"
     
-    # Downloads
-    if os.path.exists("Desain_Katalog_Modular_Baru.pdf"):
-        with open("Desain_Katalog_Modular_Baru.pdf", "rb") as f:
+    if os.path.exists(pdf_catalog):
+        with open(pdf_catalog, "rb") as f:
             st.download_button(
-                label="📄 Download Katalog PDF",
+                label="📄 Download Brosur Produk (PDF)",
                 data=f,
                 file_name="Katalog_Modular_2026.pdf",
                 mime="application/pdf",
                 use_container_width=True
             )
     else:
-        st.warning("File Katalog tidak ditemukan.")
-    
-    if os.path.exists("Rincian_Anggaran_Kantor_Modular_v3.pdf"):
-        with open("Rincian_Anggaran_Kantor_Modular_v3.pdf", "rb") as f:
+        st.warning("⚠️ File katalog sedang diperbarui.")
+
+    if os.path.exists(pdf_rab):
+        with open(pdf_rab, "rb") as f:
             st.download_button(
-                label="💰 Download RAB Detail PDF",
+                label="💰 Download Estimasi RAB (PDF)",
                 data=f,
                 file_name="RAB_Modular_Proyek.pdf",
                 mime="application/pdf",
                 use_container_width=True
             )
-    else:
-        st.warning("File RAB tidak ditemukan.")
 
-# --- CONTACT CTA ---
-st.markdown("""
-<div class="contact-box">
-    <h2 style="margin-bottom: 10px;">Siap Memulai Proyek Anda?</h2>
-    <p style="font-size: 1.1rem; opacity: 0.9;">Konsultasikan kebutuhan ruang modular Anda bersama tim ahli kami.</p>
+with col_contact:
+    st.subheader("📞 Hubungi Kami")
+    st.write("Konsultasi gratis untuk kebutuhan proyek Anda.")
     
-    <div style="margin-top: 30px;">
-        <p style="font-size: 1.3rem; margin-bottom: 5px;">📞 <b>Admin Modular</b></p>
-        <p style="margin-bottom: 20px;">Jl. Kyai Kathi Desa No.168, Ngesong, Jepara, Jawa Tengah</p>
-        
-        <a href="https://wa.me/6281244566790" target="_blank" class="whatsapp-btn">
-            Chat WhatsApp Sekarang
-        </a>
-    </div>
-</div>
+    st.markdown("""
+    **Admin Modular**  
+    Jl. Kyai Kathi Desa No.168, Ngesong, Jepara  
+    Jawa Tengah, 5942
+    """)
+    
+    st.markdown("""
+    <a href="https://wa.me/6281244566790" class="custom-btn" style="width:100%;">
+        Chat WhatsApp Sekarang
+    </a>
+    """, unsafe_allow_html=True)
+
+# Floating Button
+st.markdown("""
+<a href="https://wa.me/6281244566790" class="whatsapp-float" target="_blank">
+    💬 Hubungi Admin
+</a>
 """, unsafe_allow_html=True)
 
 # Footer
-st.markdown("""
-<div style="text-align: center; margin-top: 4rem; padding-bottom: 2rem; color: #888; border-top: 1px solid #eee; padding-top: 2rem;">
-    <small>© 2026 Modular House. All Rights Reserved.</small>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("---")
+st.markdown("<div style='text-align: center; color: grey;'>© 2026 Modular House Official.</div>", unsafe_allow_html=True)
